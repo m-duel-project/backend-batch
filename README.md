@@ -1,7 +1,7 @@
 # m-duel-project / backend-batch
 이 repo는 2016년 10월 12~14일간 예정된 m-duel 프로젝트에 대한 backend batch 작업을 수행하는 repo
 
-### webjob 또는 functinos
+### webjob 또는 functions
 scheduled 이나 webhook, trigger에 의해 backend task를 수행할 수 있는 webjob과 functions를 활용해 아래의 작업을 backend에서 수행  
 - batch prediction에 의해 분석될 데이터는 admin web으로부터 자동 생성 되는것으로 가정
 - admin web은 blob storage의 input container에 JSON 형식 파일을 주기적으로 업로드 한다고 가정
@@ -13,3 +13,9 @@ scheduled 이나 webhook, trigger에 의해 backend task를 수행할 수 있는
 - 결과를 JSON으로 생성해 blob output container에 기록
 
 위의 과정을 수행하는 webjob 또는 functions를 구현
+
+## 구현 노트
+
+두 개의 azure function app으로 구현 BlobTrigger로부터 실행
+- FirstTrigger: input path를 BlobTrigger로 감지 → batch job를 생성한 뒤 job id를 이용해서 start
+- SecondTrigger: output path를 BlobTrigger로 감지 → output blob을 SQL Server table에 insert
